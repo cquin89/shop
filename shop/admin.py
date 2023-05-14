@@ -45,3 +45,7 @@ class addProductDetailt(admin.ModelAdmin):
     def get_product_name(self, obj):
         return obj.product.name
     
+class ShopAdminArea(admin.AdminSite):
+    site_header = 'Admin Area'
+
+shop_admin_site = ShopAdminArea(name='BlogAdmin')
