@@ -22,7 +22,7 @@ def scrape_product_info_selenium(url,brandTag,nameTag,priceTag,imageTag,waitUnti
         print('no wait')
     else:
         # Aumentar el tiempo de espera a 5 segundos
-        wait = WebDriverWait(driver, 5)
+        wait = WebDriverWait(driver, 15)
 
         # Esperar a que un elemento con class 'zoomed-image' esté presente en la página
         wait.until(EC.presence_of_element_located((By.CLASS_NAME, waitUntilTag)))
@@ -95,9 +95,6 @@ def scrape_product_info_requests(url,brandTag,nameTag,priceTag,imageTag):
 
             if img_element:
                 img_src = img_element['src']
-                print("URL de la imagen:", img_src)
-            else:
-                print("No se encontró el elemento 'img' en el fragmento HTML.")
             return product_brand_text, product_name_text, product_price_text, img_src
         else:
             print("Error al realizar la solicitud:", response.status_code)

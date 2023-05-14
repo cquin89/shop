@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mi formulario</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"] {
+            width: 500px;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        button:hover:not(:disabled) {
+            background-color: #0056b3;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .messages {
+        list-style-type: none;
+        padding: 0;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+    <form method="post" action="addProduct">
+        {% csrf_token %}
+
+        <div class="input-group">
+            <label for="categoria">Categoría:</label>
+            <select name="categoria" id="categoria" required>
+                <option value="">Seleccione una categoría</option>
+                {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label for="campo1">Jumbo Url:</label>
+            <input type="text" name="campo1" id="campo1" required oninput="validar_formulario()">
+        </div>
+
+        <div class="input-group">
+            <label for="campo2">Lider Url:</label>
+            <input type="text" name="campo2" id="campo2" required oninput="validar_formulario()">
+        </div>
+
+        <div class="input-group">
+            <label for="campo3">Santa Isabel Url:</label>
+            <input type="text" name="campo3" id="campo3" required oninput="validar_formulario()">
+        </div>
+
+        <div class="input-group">
+            <label for="campo4">Unimarc Url:</label>
+            <input type="text" name="campo4" id="campo4" required oninput="validar_formulario()">
+        </div>
+
+        <button type="submit" disabled>Enviar</button>
+    </form>
+
+    <script>
+        function es_url_valida(url) {
+            try {
+                const url_obj = new URL(url);
+                return url_obj.protocol && url_obj.hostname;
+            } catch (_) {
+                return false;
+            }
+        }
+    
+        function validar_formulario() {
+            const campos = document.querySelectorAll('input[type="text"]');
+            let todos_validos = true;
+    
+            for (const campo of campos) {
+                if (!es_url_valida(campo.value)) {
+                    todos_validos = false;
+                    campo.setCustomValidity("URL inválida");
+                } else {
+                    campo.setCustomValidity("");
+                }
+            }
+    
+            const categoriaSeleccionada = document.getElementById('categoria').value;
+            if (categoriaSeleccionada === "") {
+                todos_validos = false;
+            }
+    
+            document.querySelector('button[type="submit"]').disabled = !todos_validos;
+        }
+    
+        document.addEventListener('DOMContentLoaded', validar_formulario);
+    </script>
+</body>
+</html>
