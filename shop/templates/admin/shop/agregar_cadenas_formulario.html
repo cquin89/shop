@@ -1,0 +1,23 @@
+{% extends 'admin/base_site.html' %}
+
+{% block content %}
+    <div class="model-form">
+        <h2>Agregar Cadenas</h2>
+        <form method="post" action="{% url 'admin:miapp_agregar_cadenas' %}">
+            {% csrf_token %}
+            <label for="campo1">Campo 1:</label>
+            <input type="text" name="campo1" id="campo1" required><br>
+
+            <label for="campo2">Campo 2:</label>
+            <input type="text" name="campo2" id="campo2" required><br>
+
+            <label for="campo3">Campo 3:</label>
+            <input type="text" name="campo3" id="campo3" required><br>
+
+            <label for="campo4">Campo 4:</label>
+            <input type="text" name="campo4" id="campo4" required><br>
+
+            <button type="submit">Ejecutar</button>
+        </form>
+    </div>
+{% endblock %}

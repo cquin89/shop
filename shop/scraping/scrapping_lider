@@ -1,0 +1,13 @@
+from scrape_product_info import scrape_product_info_selenium
+
+url = 'https://www.lider.cl/supermercado/product/sku/2403/tucapel-arroz-grado-1-grano-largo-ancho-bolsa-1-kg'
+brandClass= 'prduct-detail-cart__brand-link'
+nameClass = 'product-detail-display-name'
+priceClass = 'pdp-mobile-sales-price'
+imageClass = 'desktop__primary-image-container'
+
+brand, name, price, image = scrape_product_info_selenium(url,brandClass,nameClass,priceClass,imageClass,imageClass)
+print("Marca del producto:", brand)
+print("Nombre del producto:", name)
+print("Precio del producto:", price)
+print("URL de la imagen:", image)
