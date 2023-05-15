@@ -2,3 +2,5 @@
 core/__pycache__/
 
 shop/__pycache__/
+
+shop/api/__pycache__/

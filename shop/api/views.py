@@ -15,8 +15,8 @@ class ProductApiViewSet(ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         print('pasando por get')
-        nombre_producto = request.GET.get('nombre', '')  # Obtener el nombre del producto del parámetro de consulta 'nombre'
-        nameCategory = request.GET.get('categoria', '')  # Obtener el ID de la categoría del parámetro de consulta 'categoria'
+        nombre_producto = request.GET.get('name', '')  # Obtener el nombre del producto del parámetro de consulta 'nombre'
+        nameCategory = request.GET.get('category', '')  # Obtener el ID de la categoría del parámetro de consulta 'categoria'
 
         # Filtrar productos por nombre y, opcionalmente, por categoría
         productos = Product.objects.filter(name__icontains=nombre_producto)
