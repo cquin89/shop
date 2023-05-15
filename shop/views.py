@@ -5,7 +5,11 @@ from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from shop.utils.ScrapingUtil import ScrappingUtil
 from shop.models import Category
-
+from django.core.paginator import Paginator
+from django.http import JsonResponse
+from django.core import serializers
+from shop.models import *
+from shop.api.serializers import *
 def redireccionar(request):
     # Reemplaza 'ruta_destino' con el nombre de la ruta a la que deseas redirigir
     return redirect('moderator/addProduct')
@@ -24,4 +28,5 @@ def mi_formulario(request):
     categories = Category.objects.all()  # Obtener todas las categorías desde la base de datos
 
     return render(request, 'shop/home.html',{'categories': categories})
+
 

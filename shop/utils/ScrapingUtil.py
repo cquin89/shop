@@ -25,12 +25,16 @@ class ScrappingUtil:
         validation = 0
         if (validateUrl(campo1) is False):
             messages.error(request, 'Hubo un error al procesar el campo 1.')  
+            return
         elif (validateUrl(campo2) is False):
             messages.error(request, 'Hubo un error al procesar el campo 2.')  
+            return
         elif (validateUrl(campo3) is False):
-            messages.error(request, 'Hubo un error al procesar el campo 3.')  
+            messages.error(request, 'Hubo un error al procesar el campo 3.')
+            return  
         elif (validateUrl(campo4) is False):
-            messages.error(request, 'Hubo un error al procesar el campo 4.')        
+            messages.error(request, 'Hubo un error al procesar el campo 4.')
+            return        
         else:
             validation +=self.verificateMarket(campo1)
             validation += self.verificateMarket(campo2)
@@ -48,26 +52,26 @@ class ScrappingUtil:
             resultado1 = scrappingJumbo(campo1)
             resultados.append(resultado1)
         except Exception as e:
-            print(f"Error en campo 1")
-
+            print(f"Error obteniendo data campo 1")
+            return
         try:
             resultado3 = scrappingSantaIsabel(campo3)
             resultados.append(resultado3)
         except Exception as e:
-            print(f"Error en campo 3")
-
+            print(f"Error obteniendo data campo 3")
+            return
         try:
             resultado4 = scrappingUnimarc(campo4)
             resultados.append(resultado4)
         except Exception as e:
-            print(f"Error en campo 4")
-
+            print(f"Error obteniendo data campo 4")
+            return
         try:
             resultado2 = scrappingLider(campo2)
             resultados.append(resultado2)
         except Exception as e:
-            print(f"Error en campo 2")
-
+            print(f"Error obteniendo data campo 2")
+            return
         # Validar que los resultados contengan los cuatro valores
         if len(resultados) == 4:
             print("¡Se obtuvieron los cuatro resultados correctamente!")
@@ -81,7 +85,7 @@ class ScrappingUtil:
 
       
             productUtils = ProductUtils()
-            productUtils.createProduct(request.POST.get('categoria'))
+            productUtils.createProduct(request,resultados)
         else:
             messages.error(request, 'Falto al obtener productos.')  
 

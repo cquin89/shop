@@ -10,40 +10,40 @@ class ProductUtils:
         if(brand is None):
             brand = Brand()
             brand.name = productBrand
-            brand.save
+            brand.save()
         primerProducto = resultados[0]
         newProduct = Product()
         newProduct.brand = brand
         newProduct.category = self.getCategoryById(categoryId)
         newProduct.name = primerProducto[1]
         newProduct.pictureUrl = primerProducto[3]
-        newProduct.save
+        newProduct.save()
 
         for resultado in resultados:
             productDetailt = ProductDetailt()
             productDetailt.product = newProduct
             productDetailt.store = self.getStoreByName(resultado[4])
-            productDetailt.price = resultado[2]
+            productDetailt.price = self.parseToFloat(resultado[2])
             productDetailt.url = resultado[5]
             productDetailt.nameStoreProduct = resultado[1]
-            productDetailt.save
+            productDetailt.save()
         messages.success(request, 'Se obtuvieron todos los productos')  
         
-    def getBrandByName(nombre):
+    def getBrandByName(self,nombre):
         try:
             brand = Brand.objects.get(name=nombre)
             return brand
         except Brand.DoesNotExist:
             return None
         
-    def getStoreByName(nombre):
+    def getStoreByName(self,nombre):
         try:
             store = Store.objects.get(name=nombre)
             return store
         except Store.DoesNotExist:
             return None
 
-    def find_repeited_brand(resultados):
+    def find_repeited_brand(self,resultados):
         marcas = {}
 
         # Contar la frecuencia de las marcas en los resultados
@@ -64,9 +64,14 @@ class ProductUtils:
 
         return marca_mas_comun
     
-    def getCategoryById(categoria_id):
+    def getCategoryById(self,categoria_id):
         try:
             categoria = Category.objects.get(id=categoria_id)
             return categoria
         except Category.DoesNotExist:
             return None
+        
+    def parseToFloat(self,cadena):
+        cadena = cadena.replace(".", "").replace("$", "").replace(",", "").replace(" ", "")
+        numero = float(cadena)
+        return numero
