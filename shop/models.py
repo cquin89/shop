@@ -3,7 +3,7 @@ from django.db import models
 class Store(models.Model):
         name = models.CharField(max_length=200)
         logoUrl = models.CharField(max_length=200, null=True) 
-
+        color = models.CharField(max_length=30, null=True) 
         def __str__(self):
                 return f'{self.name}'
         
@@ -15,6 +15,7 @@ class Brand(models.Model):
 
 class Category(models.Model):
         name = models.CharField(max_length=200)
+        imageUrl = models.CharField(max_length=200, null=True)
 
         def __str__(self):
                 return f'{self.name}'

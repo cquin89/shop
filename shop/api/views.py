@@ -11,6 +11,7 @@ class BrandApiViewSet(ModelViewSet):
 
 class ProductApiViewSet(ModelViewSet):
     serializer_class = ProductSerilizer
+   
     queryset = Product.objects.all()
 
     def list(self, request, *args, **kwargs):
@@ -44,8 +45,7 @@ class ProductApiViewSet(ModelViewSet):
             for detalle in detalles_producto:
                 detalle_data = {
                     'price': detalle.price,
-                    'storeId': detalle.store.id,
-                    'storeName': detalle.store.name
+                    'store': StoreSerilizer(detalle.store).data
                 }
                 detalles_data.append(detalle_data)
             

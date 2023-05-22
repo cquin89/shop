@@ -9,12 +9,12 @@ class BrandSerilizer(ModelSerializer):
 class CategorySerilizer(ModelSerializer):
     class Meta:
         model = Category
-        fields = ['id','name']        
+        fields = ['id','name','imageUrl']        
 
 class StoreSerilizer(ModelSerializer):
     class Meta:
         model = Store
-        fields = ['id','name','logoUrl']                
+        fields = ['id','name','logoUrl','color']                
 
 class ProductSerilizer(ModelSerializer):
     class Meta:
