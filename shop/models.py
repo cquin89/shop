@@ -25,7 +25,7 @@ class Product(models.Model):
         pictureUrl = models.CharField(max_length=200, null=True) 
         brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
         category = models.ForeignKey(Category, on_delete=models.CASCADE)
-
+                
         def __str__(self):
                 return f'{self.id} - {self.name}'
         
@@ -34,5 +34,5 @@ class ProductDetailt(models.Model):
         nameStoreProduct = models.CharField(max_length=200)
         price = models.FloatField(default=0)
         url = models.CharField(max_length=200) 
-        store = models.ForeignKey(Store, on_delete=models.CASCADE)
+        store = models.CharField(max_length=200)
         product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)

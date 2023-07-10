@@ -32,6 +32,7 @@ class addProduct(admin.ModelAdmin):
     @admin.display(description='Category Name', ordering='category__name')
     def get_category_name(self, obj):
         return obj.category.name
+        
     
 @admin.register(ProductDetailt)
 class addProductDetailt(admin.ModelAdmin):

@@ -3,7 +3,7 @@ from shop.scraping.scrape_product_info import scrape_product_price
 
 brandClass= 'product-brand'
 nameClass = 'product-name'
-priceClass = 'product-sigle-price-wrapper'
+priceClass = 'prices-main-price'
 imageClass = 'zoomed-image'
 
 def scrappingSantaIsabel(url):

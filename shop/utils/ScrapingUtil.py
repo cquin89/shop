@@ -6,6 +6,8 @@ from shop.scraping.scrapping_jumbo import scrappingJumbo
 from shop.scraping.scrapping_santaisabel import scrappingSantaIsabel
 from shop.scraping.scrapping_unimarc import scrappingUnimarc
 from shop.scraping.scrapping_lider import scrappingLider
+from django.http import HttpResponseBadRequest, HttpResponseNotFound
+from django.http import JsonResponse
 
 class ScrappingUtil:
  
@@ -24,17 +26,13 @@ class ScrappingUtil:
     def scrappingData(self,request,campo1, campo2, campo3, campo4):
         validation = 0
         if (validateUrl(campo1) is False):
-            messages.error(request, 'Hubo un error al procesar el campo 1.')  
-            return
+            raise Exception('Hubo un error al procesar el campo 1.') 
         elif (validateUrl(campo2) is False):
-            messages.error(request, 'Hubo un error al procesar el campo 2.')  
-            return
+            raise Exception('Hubo un error al procesar el campo 2.' ) 
         elif (validateUrl(campo3) is False):
-            messages.error(request, 'Hubo un error al procesar el campo 3.')
-            return  
+            raise Exception('Hubo un error al procesar el campo 3.' ) 
         elif (validateUrl(campo4) is False):
-            messages.error(request, 'Hubo un error al procesar el campo 4.')
-            return        
+            raise Exception('Hubo un error al procesar el campo 4.' )     
         else:
             validation +=self.verificateMarket(campo1)
             validation += self.verificateMarket(campo2)
@@ -42,9 +40,9 @@ class ScrappingUtil:
             validation += self.verificateMarket(campo4)
             print(validation)
             if(validation!=4):
-                messages.error(request, 'Falto un supermercado.')  
+                raise Exception('Falto un supermercado')
             else:
-                self.getScrapingData(request,campo1,campo2,campo3,campo4)
+                return self.getScrapingData(request,campo1,campo2,campo3,campo4)
    
     def getScrapingData(self,request,campo1, campo2, campo3, campo4):
         resultados = []
@@ -52,26 +50,22 @@ class ScrappingUtil:
             resultado1 = scrappingJumbo(campo1)
             resultados.append(resultado1)
         except Exception as e:
-            print(f"Error obteniendo data campo 1")
-            return
+            raise Exception('Error obteniendo data campo 1 jumbo')
         try:
             resultado3 = scrappingSantaIsabel(campo3)
             resultados.append(resultado3)
         except Exception as e:
-            print(f"Error obteniendo data campo 3")
-            return
+            raise Exception('Error obteniendo data campo 3 santa isabel')
         try:
-            resultado4 = scrappingUnimarc(campo4)
+            resultado4 = scrappingJumbo(campo4)
             resultados.append(resultado4)
         except Exception as e:
-            print(f"Error obteniendo data campo 4")
-            return
+            raise Exception('Error obteniendo data campo 4 unimarc')
         try:
             resultado2 = scrappingLider(campo2)
             resultados.append(resultado2)
         except Exception as e:
-            print(f"Error obteniendo data campo 2")
-            return
+            raise Exception('Error obteniendo data campo 2 lider')
         # Validar que los resultados contengan los cuatro valores
         if len(resultados) == 4:
             print("¡Se obtuvieron los cuatro resultados correctamente!")
@@ -85,9 +79,9 @@ class ScrappingUtil:
 
       
             productUtils = ProductUtils()
-            productUtils.createProduct(request,resultados)
+            return productUtils.createProduct(request,resultados)
         else:
-            messages.error(request, 'Falto al obtener productos.')  
+            raise Exception('Falto al obtener productos.')
 
        
 

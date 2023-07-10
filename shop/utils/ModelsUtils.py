@@ -1,47 +1,45 @@
 from shop.models import *
 from django.contrib import messages
+from django.http import HttpResponse
+from django.http import JsonResponse
 
 class ProductUtils:
 
     def createProduct(self,request,resultados):
-        categoryId = request.POST.get('categoria')
-        productBrand = self.find_repeited_brand(resultados)
-        brand = self.getBrandByName(productBrand)
-        if(brand is None):
-            brand = Brand()
-            brand.name = productBrand
-            brand.save()
-        primerProducto = resultados[0]
-        newProduct = Product()
-        newProduct.brand = brand
-        newProduct.category = self.getCategoryById(categoryId)
-        newProduct.name = primerProducto[1]
-        newProduct.pictureUrl = primerProducto[3]
-        newProduct.save()
-
+     
+        detalles_data = []
         for resultado in resultados:
-            productDetailt = ProductDetailt()
-            productDetailt.product = newProduct
-            productDetailt.store = self.getStoreByName(resultado[4])
-            productDetailt.price = self.parseToFloat(resultado[2])
-            productDetailt.url = resultado[5]
-            productDetailt.nameStoreProduct = resultado[1]
-            productDetailt.save()
-        messages.success(request, 'Se obtuvieron todos los productos')  
+            detalle_data = {
+                'price': self.parseToFloat(resultado[2]),
+                'store': resultado[4],
+                'url': resultado[5],
+                'nameStoreProduct':resultado[1]
+            }
+            detalles_data.append(detalle_data)
         
-    def getBrandByName(self,nombre):
-        try:
-            brand = Brand.objects.get(name=nombre)
-            return brand
-        except Brand.DoesNotExist:
-            return None
+        print(f"Se obtuvieron todos los productos")
+
+       
+            # Obtener los detalles del producto
+
+        productBrand = self.find_repeited_brand(resultados)
+      
+        primerProducto = resultados[0]
+       # Crear el diccionario del producto
+        producto_data = {
+            'name':primerProducto[1],
+            'pictureUrl': primerProducto[3],
+            'brand': productBrand,
+            'details': detalles_data
+        }
+        response_data = []
+        response_data.append(producto_data)
+        response = {
+            'products': response_data
+        }
+        print(f"Se obtuvieron todos los productos")
+        return JsonResponse(response)
         
-    def getStoreByName(self,nombre):
-        try:
-            store = Store.objects.get(name=nombre)
-            return store
-        except Store.DoesNotExist:
-            return None
 
     def find_repeited_brand(self,resultados):
         marcas = {}
@@ -64,12 +62,6 @@ class ProductUtils:
 
         return marca_mas_comun
     
-    def getCategoryById(self,categoria_id):
-        try:
-            categoria = Category.objects.get(id=categoria_id)
-            return categoria
-        except Category.DoesNotExist:
-            return None
         
     def parseToFloat(self,cadena):
         cadena = cadena.replace(".", "").replace("$", "").replace(",", "").replace(" ", "")
