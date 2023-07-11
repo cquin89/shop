@@ -57,7 +57,7 @@ class ScrappingUtil:
         except Exception as e:
             raise Exception('Error obteniendo data campo 3 santa isabel')
         try:
-            resultado4 = scrappingJumbo(campo4)
+            resultado4 = scrappingUnimarc(campo4)
             resultados.append(resultado4)
         except Exception as e:
             raise Exception('Error obteniendo data campo 4 unimarc')

@@ -11,7 +11,7 @@ def scrappingSantaIsabel(url):
     return brand,name,price,image,"Santa isabel",url
 
 
-def scrappingSantaMariaIsabel(url):
+def scrappingSantaMariaIsabelPrice(url):
     price = scrape_product_price(url,priceClass)
     print("Precio del producto:", price)
     return price

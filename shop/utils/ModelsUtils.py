@@ -1,4 +1,4 @@
-from shop.models import *
+
 from django.contrib import messages
 from django.http import HttpResponse
 from django.http import JsonResponse
@@ -16,11 +16,6 @@ class ProductUtils:
                 'nameStoreProduct':resultado[1]
             }
             detalles_data.append(detalle_data)
-        
-        print(f"Se obtuvieron todos los productos")
-
-       
-            # Obtener los detalles del producto
 
         productBrand = self.find_repeited_brand(resultados)
       

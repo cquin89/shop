@@ -90,7 +90,7 @@ def scrape_product_info_requests(url,brandTag,nameTag,priceTag,imageTag):
             product_price =  soup.find(class_=priceTag)
             product_price_text = product_price.text.strip() if product_price else "No se pudo encontrar el precio del producto en la página."
 
-
+            
             product_image =  soup.find(class_=imageTag)
             img_element = product_image.find('img')
 
